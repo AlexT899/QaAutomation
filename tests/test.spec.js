@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 import { LoginPage } from "../pages/LoginPage.js";
 import { HomePage } from "../pages/HomePage.js";
 import { AdminPage } from "../pages/AdminPage.js";
+import { PimPage } from "../pages/PimPage.js";
 test("Login", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
@@ -79,7 +80,7 @@ test("Click checkbox", async ({ page }) => {
   await click.checkBoxClick();
   await page.waitForTimeout(5000);
 });
-test.only("Check username exist", async ({ page }) => {
+test("Check username exist", async ({ page }) => {
   const ap = new AdminPage(page);
   await ap.clickAdminBtn();
   await ap.checkSearchUsername();
@@ -87,4 +88,15 @@ test.only("Check username exist", async ({ page }) => {
     ap.checkSearchUsername.username1 == ap.checkSearchUsername.username2
   ).toBeTruthy();
   await page.waitForTimeout(5000);
+});
+test.only("Update form", async ({ page }) => {
+  const pim = new PimPage(page);
+  await pim.clickPimBtn();
+  await page.waitForTimeout(2000);
+  await pim.clickUserList();
+  await page.waitForTimeout(1000);
+  await pim.randomName();
+  await pim.middleName();
+  await pim.surName();
+  await page.waitForTimeout(3000);
 });
