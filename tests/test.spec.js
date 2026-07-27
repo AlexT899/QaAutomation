@@ -10,15 +10,17 @@ test("Login", async ({ page }) => {
   await login.login("Admin", "admin123");
   await page.waitForTimeout(2000);
 });
-test.beforeEach("Check Login", async ({ page }) => {
+test.beforeEach("Check Login", async ({ context, page }) => {
   //Login
   const login = new LoginPage(page);
+  await context.clearCookies();
   await login.gotoLoginPage();
   await login.login("Admin", "admin123");
   await page.waitForTimeout(2000);
-  const checkLoginLocator = await login.checkLogin();
-  // await expect(checkLoginLocator).toBeVisible();
-  await page.waitForTimeout(2000);
+  // await page.pause();
+  // const checkLoginLocator = await login.checkLogin();
+  // // await expect(checkLoginLocator).toBeVisible();
+  // await page.waitForTimeout(2000);
 });
 test("Check Length", async ({ page }) => {
   //Login
@@ -98,5 +100,10 @@ test.only("Update form", async ({ page }) => {
   await pim.randomName();
   await pim.middleName();
   await pim.surName();
+  await pim.newId();
+  await pim.newOtherId();
+  await pim.newLicenseNumber();
+  await pim.nationality();
+  await pim.maritalStatus();
   await page.waitForTimeout(3000);
 });
