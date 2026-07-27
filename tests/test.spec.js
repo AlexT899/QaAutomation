@@ -105,5 +105,12 @@ test.only("Update form", async ({ page }) => {
   await pim.newLicenseNumber();
   await pim.nationality();
   await pim.maritalStatus();
+  await pim.genderBox();
+  await pim.saveButton();
+  await pim.chooseBloodType();
+  await pim.chooseTestField();
+  await pim.addFiles();
+  await pim.attachFiles();
+  await pim.addComment();
   await page.waitForTimeout(3000);
 });
