@@ -92,7 +92,7 @@ test("Check username exist", async ({ page }) => {
   ).toBeTruthy();
   await page.waitForTimeout(5000);
 });
-test("Update form", async ({ page }) => {
+test.only("Update form", async ({ page }) => {
   const pim = new PimPage(page);
   await pim.clickPimBtn();
   await page.waitForTimeout(2000);
@@ -106,16 +106,18 @@ test("Update form", async ({ page }) => {
   await pim.newLicenseNumber();
   await pim.nationality();
   await pim.maritalStatus();
+  await pim.clickDobBtn();
   await pim.genderBox();
   await pim.saveButton();
   await pim.chooseBloodType();
   await pim.chooseTestField();
   await pim.addFiles();
-  await pim.attachFiles();
+  // await pim.attachFiles();
   await pim.addComment();
+
   await page.waitForTimeout(3000);
 });
-test.only("Check user", async ({ page }) => {
+test("Check user", async ({ page }) => {
   const directory = new DirectoryPage(page);
   await directory.clickDirectoryBtn();
   await directory.workTitle();

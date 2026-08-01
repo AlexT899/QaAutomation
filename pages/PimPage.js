@@ -24,6 +24,9 @@ exports.PimPage = class PimPage {
     this.addFile = "//input[@type='file']";
     this.attachFile = "(//div[@class='oxd-file-button'])[1]";
     this.comment = "(//textarea[@placeholder='Type comment here'])[1]";
+    this.birthDate =
+      "(//i[@class='oxd-icon bi-calendar oxd-date-input-icon'])[2]";
+    this.inputDob = "(//input[@placeholder='yyyy-dd-mm'])[2]";
   }
 
   async clickPimBtn() {
@@ -109,7 +112,6 @@ exports.PimPage = class PimPage {
   }
   async chooseTestField() {
     let randomTestNumber = Math.floor(Math.random() * 9000) + 1000;
-    console.log(randomTestNumber);
     await this.page.locator(this.testField).fill(randomTestNumber.toString());
   }
   async addFiles() {
@@ -128,5 +130,19 @@ exports.PimPage = class PimPage {
     ];
     let randomComments = comments[Math.floor(Math.random() * comments.length)];
     await this.page.locator(this.comment).fill(randomComments);
+  }
+  async clickDobBtn() {
+    await this.page.locator(this.inputDob).click();
+
+    const randomYear = Math.floor(Math.random() * (2026 - 1976 + 1)) + 1976;
+    const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(
+      2,
+      "0"
+    );
+    const daysInMonth = new Date(randomYear, randomMonth + 1, 0).getDate(); // проверяем сколько дней в выбраном месяце
+    const randomDay = Math.floor(Math.random() * daysInMonth) + 1;
+    const randomBirthDate = `${randomYear}-${randomMonth}-${randomDay}`;
+    await this.page.locator(this.inputDob).fill(randomBirthDate);
+    console.log(randomBirthDate);
   }
 };
