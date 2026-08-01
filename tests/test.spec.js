@@ -3,6 +3,7 @@ import { LoginPage } from "../pages/LoginPage.js";
 import { HomePage } from "../pages/HomePage.js";
 import { AdminPage } from "../pages/AdminPage.js";
 import { PimPage } from "../pages/PimPage.js";
+import { DirectoryPage } from "../pages/DirectoryPage.js";
 test("Login", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
@@ -91,7 +92,7 @@ test("Check username exist", async ({ page }) => {
   ).toBeTruthy();
   await page.waitForTimeout(5000);
 });
-test.only("Update form", async ({ page }) => {
+test("Update form", async ({ page }) => {
   const pim = new PimPage(page);
   await pim.clickPimBtn();
   await page.waitForTimeout(2000);
@@ -112,5 +113,24 @@ test.only("Update form", async ({ page }) => {
   await pim.addFiles();
   await pim.attachFiles();
   await pim.addComment();
+  await page.waitForTimeout(3000);
+});
+test.only("Check user", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.workTitle();
+  await directory.chooseWorkTitle();
+  await directory.clickSearchBTn();
+  let checkJob = await page
+    .locator(
+      "//div[@class='oxd-grid-item oxd-grid-item--gutters']//p[text()='Chief Financial Officer']"
+    )
+    .textContent();
+  await expect(
+    await page.locator(
+      "//div[@class='oxd-grid-item oxd-grid-item--gutters']//p[text()='Chief Financial Officer']"
+    )
+  ).toContainText("Chief Financial Officer");
+  console.log(checkJob);
   await page.waitForTimeout(3000);
 });
