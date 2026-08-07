@@ -16,17 +16,16 @@ exports.PimPage = class PimPage {
     this.mStatus =
       "(//div[@class='oxd-select-text oxd-select-text--active'])[2]";
     this.radioBox = "input[type='radio']";
-    this.saveBtn =
-      "//div[@class='orangehrm-horizontal-padding orangehrm-vertical-padding']//button[@type='submit'][normalize-space()='Save']";
+    this.saveBtn = "(//button[@type='submit'][normalize-space()='Save'])[1]";
+    this.saveBtn2 = "(//button[@type='submit'][normalize-space()='Save'])[2]";
+    this.saveBtn3 = "(//button[@type='submit'][normalize-space()='Save'])[3]";
     this.bloodType = "(//div[@class='oxd-select-wrapper'])[3]";
     this.testField = "(//input[@class='oxd-input oxd-input--active'])[7]";
     this.addButton = "(//button[normalize-space()='Add'])[1]";
-    this.addFile = "//input[@type='file']";
-    this.attachFile = "(//div[@class='oxd-file-button'])[1]";
+    this.inputFile = "//input[@type='file']";
     this.comment = "(//textarea[@placeholder='Type comment here'])[1]";
-    this.birthDate =
-      "(//i[@class='oxd-icon bi-calendar oxd-date-input-icon'])[2]";
     this.inputDob = "(//input[@placeholder='yyyy-dd-mm'])[2]";
+    this.licenceNum = "(//input[@placeholder='yyyy-dd-mm'])[1]";
   }
 
   async clickPimBtn() {
@@ -40,33 +39,39 @@ exports.PimPage = class PimPage {
     let randomName = name[Math.floor(Math.random() * name.length)];
     await this.page.locator(this.usernameInput).fill(randomName);
     // await this.page.waitForTimeout(200);
+    console.log("Name:", randomName);
   }
   async middleName() {
     let middleName = ["V", "F", "G", "A"];
     let randomMiddleName =
       middleName[Math.floor(Math.random() * middleName.length)];
     await this.page.locator(this.middleNameInput).fill(randomMiddleName);
+    console.log("Middle Name:", randomMiddleName);
   }
   async surName() {
     let surname = ["Tarvids", "Cuellar", "Gorbachev", "Aleksejev"];
     let randomSurname = surname[Math.floor(Math.random() * surname.length)];
     await this.page.locator(this.lastName).fill(randomSurname);
+    console.log("Surname:", randomSurname);
   }
   async newId() {
     let id = Math.floor(Math.random() * 900) + 100;
 
     await this.page.locator(this.id).fill(id.toString());
+    console.log("ID:", id);
   }
   async newOtherId() {
     let id = ["hop", "12321", "45678", "pikachu", "belka"];
     let randomId = id[Math.floor(Math.random() * id.length)];
     await this.page.locator(this.id).fill(randomId);
+    console.log("Other ID:", randomId);
   }
   async newLicenseNumber() {
     let licenseNumber = Math.floor(Math.random() * 90000) + 10000;
     // let randomNumber =
     //   licenseNumber[Math.floor(Math.random() * licenseNumber.length)];
     await this.page.locator(this.licenseNumber).fill(licenseNumber.toString());
+    console.log("License Number:", licenseNumber);
   }
   async nationality() {
     await this.page.locator(this.chooseCountry).click();
@@ -83,6 +88,36 @@ exports.PimPage = class PimPage {
     const count = await statuses.count();
     const randomIndex = Math.floor(Math.random() * count);
     await statuses.nth(randomIndex).click();
+  }
+  async clickDobBtn() {
+    const randomYear = Math.floor(Math.random() * (2026 - 1976 + 1)) + 1976;
+    const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(
+      2,
+      "0"
+    );
+    const daysInMonth = new Date(randomYear, randomMonth + 1, 0).getDate(); // проверяем сколько дней в выбраном месяце
+    const randomDay = String(
+      Math.floor(Math.random() * daysInMonth) + 1
+    ).padStart(2, "0");
+    const randomBirthDate = `${randomYear}-${randomMonth}-${randomDay}`;
+    await this.page.locator(this.inputDob).fill(randomBirthDate);
+    console.log("DOB:", randomBirthDate);
+  }
+  async clickLicenseExpiry() {
+    const randomYear = String(
+      Math.floor(Math.random() * (2036 - 2026 + 1)) + 2026
+    ); // Выбираем рандмоный год от текущего + 10 лет
+    const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(
+      2,
+      "0"
+    ); // Выбираем рандмоный месяц
+    const daysInMonth = new Date(randomYear, randomMonth + 1, 0).getDate(); // проверяем сколько дней в выбраном месяце
+    const randomDay = String(
+      Math.floor(Math.random() * daysInMonth) + 1
+    ).padStart(2, "0"); // Выбираем рандмоный день
+    const randomExpiryDate = `${randomYear}-${randomMonth}-${randomDay}`;
+    await this.page.locator(this.licenceNum).fill(randomExpiryDate);
+    console.log("Expiry Date:", randomExpiryDate);
   }
   async genderBox() {
     // Находим все радиокнопки
@@ -114,12 +149,16 @@ exports.PimPage = class PimPage {
     let randomTestNumber = Math.floor(Math.random() * 9000) + 1000;
     await this.page.locator(this.testField).fill(randomTestNumber.toString());
   }
+  async saveButton1() {
+    await this.page.locator(this.saveBtn2).click();
+  }
   async addFiles() {
     await this.page.locator(this.addButton).click();
   }
   async attachFiles() {
-    await this.page.locator(this.attachFile).click();
-    await this.page.waitForTimeout(7000);
+    await this.page
+      .locator(this.inputFile)
+      .setInputFiles("C:/Users/lexa5/Desktop/file/1.jpg"); // Добавляем путь до файла
   }
   async addComment() {
     let comments = [
@@ -131,18 +170,7 @@ exports.PimPage = class PimPage {
     let randomComments = comments[Math.floor(Math.random() * comments.length)];
     await this.page.locator(this.comment).fill(randomComments);
   }
-  async clickDobBtn() {
-    await this.page.locator(this.inputDob).click();
-
-    const randomYear = Math.floor(Math.random() * (2026 - 1976 + 1)) + 1976;
-    const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(
-      2,
-      "0"
-    );
-    const daysInMonth = new Date(randomYear, randomMonth + 1, 0).getDate(); // проверяем сколько дней в выбраном месяце
-    const randomDay = Math.floor(Math.random() * daysInMonth) + 1;
-    const randomBirthDate = `${randomYear}-${randomMonth}-${randomDay}`;
-    await this.page.locator(this.inputDob).fill(randomBirthDate);
-    console.log(randomBirthDate);
+  async saveButton2() {
+    await this.page.locator(this.saveBtn3).click();
   }
 };

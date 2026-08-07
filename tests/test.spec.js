@@ -104,6 +104,7 @@ test.only("Update form", async ({ page }) => {
   await pim.newId();
   await pim.newOtherId();
   await pim.newLicenseNumber();
+  await pim.clickLicenseExpiry();
   await pim.nationality();
   await pim.maritalStatus();
   await pim.clickDobBtn();
@@ -111,11 +112,12 @@ test.only("Update form", async ({ page }) => {
   await pim.saveButton();
   await pim.chooseBloodType();
   await pim.chooseTestField();
+  await pim.saveButton1();
   await pim.addFiles();
-  // await pim.attachFiles();
+  await pim.attachFiles();
   await pim.addComment();
-
-  await page.waitForTimeout(3000);
+  await pim.saveButton2();
+  await page.waitForTimeout(10000);
 });
 test("Check user", async ({ page }) => {
   const directory = new DirectoryPage(page);
