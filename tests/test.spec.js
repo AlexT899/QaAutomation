@@ -92,7 +92,7 @@ test("Check username exist", async ({ page }) => {
   ).toBeTruthy();
   await page.waitForTimeout(5000);
 });
-test.only("Update form", async ({ page }) => {
+test("Update form", async ({ page }) => {
   const pim = new PimPage(page);
   await pim.clickPimBtn();
   await page.waitForTimeout(2000);
@@ -136,5 +136,11 @@ test("Check user", async ({ page }) => {
     )
   ).toContainText("Chief Financial Officer");
   console.log(checkJob);
+  await page.waitForTimeout(3000);
+});
+test.only("Check quantity of users", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.scrollMouseDown();
   await page.waitForTimeout(3000);
 });

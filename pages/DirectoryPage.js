@@ -9,6 +9,9 @@ exports.DirectoryPage = class DirectoryPage {
     this.chooseJobTitle =
       "//div[contains(@class, 'oxd-select-option') and .//span[text()='Chief Financial Officer']]";
     this.searchBTn = "//button[normalize-space()='Search']";
+    this.scrollDown = ".oxd-grid-7";
+    this.lastElement = "//div[@class='oxd-grid-4']/div";
+    this.countElements = "span[class='oxd-text oxd-text--span']";
   }
   async clickDirectoryBtn() {
     await this.page.locator(this.directoryBtn).click();
@@ -28,5 +31,29 @@ exports.DirectoryPage = class DirectoryPage {
   }
   async clickSearchBTn() {
     await this.page.locator(this.searchBTn).click();
+  }
+  async scrollMouseDown() {
+    await this.page.waitForTimeout(1000); // если ничего не появляетсь поставь задержку
+    const elements = await this.page.locator(
+      "span[class='oxd-text oxd-text--span']"
+    );
+
+    const text = await elements.allTextContents();
+    const recordText = text.find((text) => text.includes("Records Found"));
+
+    const number = Number(recordText.match(/\d+/)[0]); //Убираем лишнее. Оставляем цифры
+    console.log("Records:", number);
+
+    const records = this.page.locator(this.lastElement);
+    let count = await records.count(); // Считаем сколько элементов на странице
+
+    while (count < number) {
+      // Сравниваем количество
+      await records.nth(count - 1).scrollIntoViewIfNeeded(); // Прокручивает до последнего элемента
+      await this.page.waitForTimeout(500);
+      count = await records.count();
+    }
+    await records.nth(count - 1).scrollIntoViewIfNeeded();
+    console.log("Reached last record:", count);
   }
 };
