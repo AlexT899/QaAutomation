@@ -4,6 +4,7 @@ import { HomePage } from "../pages/HomePage.js";
 import { AdminPage } from "../pages/AdminPage.js";
 import { PimPage } from "../pages/PimPage.js";
 import { DirectoryPage } from "../pages/DirectoryPage.js";
+import { MaintenancePage } from "../pages/MaintenancePage.js";
 test("Login", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
@@ -138,9 +139,18 @@ test("Check user", async ({ page }) => {
   console.log(checkJob);
   await page.waitForTimeout(3000);
 });
-test.only("Check quantity of users", async ({ page }) => {
+test("Check quantity of users", async ({ page }) => {
   const directory = new DirectoryPage(page);
   await directory.clickDirectoryBtn();
+  await directory.scrollToFooter();
   await directory.scrollMouseDown();
+  await page.waitForTimeout(3000);
+});
+test.only("Maintenance", async ({ page }) => {
+  const maintenance = new MaintenancePage(page);
+  await maintenance.clickBtn();
+  await maintenance.enterPassword();
+  await maintenance.clickAccess();
+  await maintenance.fillInput();
   await page.waitForTimeout(3000);
 });

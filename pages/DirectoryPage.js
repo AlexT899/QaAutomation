@@ -9,9 +9,7 @@ exports.DirectoryPage = class DirectoryPage {
     this.chooseJobTitle =
       "//div[contains(@class, 'oxd-select-option') and .//span[text()='Chief Financial Officer']]";
     this.searchBTn = "//button[normalize-space()='Search']";
-    this.scrollDown = ".oxd-grid-7";
     this.lastElement = "//div[@class='oxd-grid-4']/div";
-    this.countElements = "span[class='oxd-text oxd-text--span']";
   }
   async clickDirectoryBtn() {
     await this.page.locator(this.directoryBtn).click();
@@ -55,5 +53,9 @@ exports.DirectoryPage = class DirectoryPage {
     }
     await records.nth(count - 1).scrollIntoViewIfNeeded();
     console.log("Reached last record:", count);
+  }
+  async scrollToFooter() {
+    await this.page.waitForTimeout(1000);
+    await this.page.getByText("OrangeHRM OS 5.9").scrollIntoViewIfNeeded();
   }
 };
