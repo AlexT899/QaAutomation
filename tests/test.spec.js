@@ -146,11 +146,24 @@ test("Check quantity of users", async ({ page }) => {
   await directory.scrollMouseDown();
   await page.waitForTimeout(3000);
 });
-test.only("Maintenance", async ({ page }) => {
+test("Maintenance", async ({ page }) => {
   const maintenance = new MaintenancePage(page);
   await maintenance.clickBtn();
   await maintenance.enterPassword();
   await maintenance.clickAccess();
   await maintenance.fillInput();
+  await page.waitForTimeout(3000);
+});
+
+test("Check dropdown if not empty", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.dropdownContent();
+  await page.waitForTimeout(3000);
+});
+test.only("Check Reset Button", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.resetBtn();
   await page.waitForTimeout(3000);
 });
