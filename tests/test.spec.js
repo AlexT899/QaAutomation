@@ -5,6 +5,7 @@ import { AdminPage } from "../pages/AdminPage.js";
 import { PimPage } from "../pages/PimPage.js";
 import { DirectoryPage } from "../pages/DirectoryPage.js";
 import { MaintenancePage } from "../pages/MaintenancePage.js";
+import { ClaimPage } from "../pages/ClaimPage.js";
 test("Login", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
@@ -173,10 +174,17 @@ test("User Check", async ({ page }) => {
   await directory.userCheck();
   await page.waitForTimeout(3000);
 });
-test.only("Select User", async ({ page }) => {
+test("Select User", async ({ page }) => {
   const directory = new DirectoryPage(page);
   await directory.clickDirectoryBtn();
   await directory.scrollMouseDown();
   await directory.selectUser();
+  await page.waitForTimeout(3000);
+});
+test.only("Amount", async ({ page }) => {
+  const claim = new ClaimPage(page);
+  await claim.clickClaimBtn();
+  await claim.checkAmountValue();
+  await claim.checkViewBtn();
   await page.waitForTimeout(3000);
 });

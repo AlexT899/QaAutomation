@@ -109,7 +109,7 @@ exports.DirectoryPage = class DirectoryPage {
     // добавил тест проверка иконок и поля телефон и эмайл
     const users = await this.page.locator("//div[@class='oxd-grid-4']/div");
     await users.first().waitFor({ state: "visible" });
-    const user = users.filter({ hasText: "auto_TestUser_65654 Kumar Sharma " });
+    const user = users.filter({ hasText: "HR Manager" });
     await user.click();
     const selectedUser = await this.page.locator(
       "//div[@class='orangehrm-corporate-directory-sidebar']//div[@class='oxd-sheet oxd-sheet--rounded oxd-sheet--white orangehrm-directory-card']"
@@ -125,12 +125,12 @@ exports.DirectoryPage = class DirectoryPage {
       "//p[normalize-space()='112-898-7612']"
     );
     const email = await this.page.locator(
-      "//p[normalize-space()='test@test.com']"
+      "//p[normalize-space()='paul1@osohrm.com']"
     );
     await expect(phoneIcon).toBeVisible();
     await expect(emailIcon).toBeVisible();
     await expect(phone).toContainText("112-898-7612");
-    await expect(email).toContainText("test@test.com");
+    await expect(email).toContainText("paul1@osohrm.com");
     await this.page.waitForTimeout(3000);
   }
 };
