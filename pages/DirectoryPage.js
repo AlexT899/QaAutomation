@@ -105,6 +105,7 @@ exports.DirectoryPage = class DirectoryPage {
     await this.page.waitForTimeout(3000);
   }
   async selectUser() {
+    // добавил тест проверка иконок и поля телефон и эмайл
     const users = await this.page.locator("//div[@class='oxd-grid-4']/div");
     await users.first().waitFor({ state: "visible" });
     const user = users.filter({ hasText: "auto_TestUser_65654 Kumar Sharma " });
