@@ -63,6 +63,7 @@ exports.DirectoryPage = class DirectoryPage {
     await this.page.waitForTimeout(1000);
     await this.page.getByText("OrangeHRM OS 5.9").scrollIntoViewIfNeeded();
   }
+
   async dropdownContent() {
     await this.page.locator(this.jobTitle).click();
     // const wrapper = this.page.locator(
@@ -86,5 +87,48 @@ exports.DirectoryPage = class DirectoryPage {
     await this.page.locator(this.chooseLocation).waitFor({ state: "visible" });
     await this.page.locator(this.chooseLocation).click();
     await this.page.locator(this.reset).click();
+  }
+  async userCheck() {
+    const users = await this.page.locator("//div[@class='oxd-grid-4']/div");
+    await users.first().waitFor({ state: "visible" });
+    const count = await users.count();
+    const randomIndex = Math.floor(Math.random() * count);
+    const randomUser = users.nth(randomIndex);
+    const randomUserText = await randomUser.innerText();
+    await randomUser.click();
+    const selectedUser = await this.page.locator(
+      "//div[@class='orangehrm-corporate-directory-sidebar']"
+    );
+    await selectedUser.first().waitFor({ state: "visible" });
+    const selectedUserText = await selectedUser.innerText();
+    await expect(randomUserText === selectedUserText).toBeTruthy();
+    await this.page.waitForTimeout(3000);
+  }
+  async selectUser() {
+    const users = await this.page.locator("//div[@class='oxd-grid-4']/div");
+    await users.first().waitFor({ state: "visible" });
+    const user = users.filter({ hasText: "auto_TestUser_65654 Kumar Sharma " });
+    await user.click();
+    const selectedUser = await this.page.locator(
+      "//div[@class='orangehrm-corporate-directory-sidebar']//div[@class='oxd-sheet oxd-sheet--rounded oxd-sheet--white orangehrm-directory-card']"
+    );
+    await selectedUser.waitFor({ state: "visible" });
+    const phoneIcon = await this.page.locator(
+      "//i[@class='oxd-icon bi-telephone-fill']"
+    );
+    const emailIcon = await this.page.locator(
+      "//i[@class='oxd-icon bi-envelope-fill']"
+    );
+    const phone = await this.page.locator(
+      "//p[normalize-space()='112-898-7612']"
+    );
+    const email = await this.page.locator(
+      "//p[normalize-space()='test@test.com']"
+    );
+    await expect(phoneIcon).toBeVisible();
+    await expect(emailIcon).toBeVisible();
+    await expect(phone).toContainText("112-898-7612");
+    await expect(email).toContainText("test@test.com");
+    await this.page.waitForTimeout(3000);
   }
 };

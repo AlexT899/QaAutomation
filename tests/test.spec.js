@@ -161,9 +161,22 @@ test("Check dropdown if not empty", async ({ page }) => {
   await directory.dropdownContent();
   await page.waitForTimeout(3000);
 });
-test.only("Check Reset Button", async ({ page }) => {
+test("Check Reset Button", async ({ page }) => {
   const directory = new DirectoryPage(page);
   await directory.clickDirectoryBtn();
   await directory.resetBtn();
+  await page.waitForTimeout(3000);
+});
+test("User Check", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.userCheck();
+  await page.waitForTimeout(3000);
+});
+test.only("Select User", async ({ page }) => {
+  const directory = new DirectoryPage(page);
+  await directory.clickDirectoryBtn();
+  await directory.scrollMouseDown();
+  await directory.selectUser();
   await page.waitForTimeout(3000);
 });
