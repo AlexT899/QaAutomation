@@ -89,6 +89,7 @@ exports.DirectoryPage = class DirectoryPage {
     await this.page.locator(this.reset).click();
   }
   async userCheck() {
+    // выбор рандомного пользователя, тест проверяет если рандомный пользователь выбран правильно
     const users = await this.page.locator("//div[@class='oxd-grid-4']/div");
     await users.first().waitFor({ state: "visible" });
     const count = await users.count();
